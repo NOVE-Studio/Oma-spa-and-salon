@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>أوما بيوتي & سبا — صحار، سلطنة عُمان</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&family=Amiri:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --rose:       #C4748A;
+            --rose-deep:  #A3516A;
+            --rose-light: #E8B4C0;
+            --blush:      #F5E6EA;
+            --blush-soft: #FDF0F3;
+            --petal:      #FAF3F5;
+            --brown:      #2E1C1F;
+            --brown-mid:  #5C3A41;
+            --brown-warm: #8C5C65;
+            --ivory:      #FEFCFD;
+            --hairline:   rgba(46, 28, 31, 0.1);
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background: var(--ivory);
+            color: var(--brown);
+            overflow-x: hidden;
+            direction: rtl;
+        }
+
+        h1, h2, h3 { font-family: 'Amiri', serif; }
+
+        /* ── Ornament ── */
+        .ornament {
+            display: flex; align-items: center; justify-content: center;
+            gap: 0.8rem; margin: 1.2rem 0 0;
+        }
+        .ornament::before, .ornament::after {
+            content: ''; height: 1px; width: 40px;
+            background: linear-gradient(90deg, transparent, var(--rose));
+        }
+        .ornament::after { background: linear-gradient(90deg, var(--rose), transparent); }
+        .ornament span { color: var(--rose); font-size: 0.85rem; }
+
+        /* ── Nav ── */
+        nav {
+            background: var(--ivory);
+            border-bottom: 1px solid var(--hairline);
+            position: sticky; top: 0; z-index: 100;
+            transition: transform 0.35s ease;
+            backdrop-filter: blur(12px);
+        }
+        nav.nav-hidden { transform: translateY(-100%); }
+
+        .nav-bar {
+            max-width: 1300px; margin: 0 auto;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0.8rem 2rem;
+        }
+
+        .nav-brand {
+            font-family: 'Amiri', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--rose-deep);
+            text-decoration: none;
+            letter-spacing: 1px;
+        }
+
+        .nav-toggle {
+            background: none; border: 1px solid var(--hairline);
+            border-radius: 8px; width: 44px; height: 44px;
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer; transition: all 0.2s ease;
+        }
+        .nav-toggle:hover { border-color: var(--rose); background: var(--blush); }
+        .nav-toggle svg { width: 20px; height: 20px; stroke: var(--brown); }
+
+        .nav-links-panel { max-height: 0; overflow: hidden; transition: max-height 0.35s ease; }
+        .nav-links-panel.open { max-height: 400px; }
+
+        nav ul {
+            list-style: none; display: flex; justify-content: center;
+            gap: 2rem; flex-wrap: wrap;
+            padding: 0.8rem 0; border-top: 1px solid var(--hairline);
+        }
+        nav a {
+            text-decoration: none; color: var(--brown-mid);
+            font-size: 0.9rem; font-weight: 500;
+            transition: color 0.3s ease;
+            padding-bottom: 2px;
+            border-bottom: 1px solid transparent;
+        }
+        nav a:hover { color: var(--rose-deep); border-bottom-color: var(--rose); }
+
+        /* ── Hero ── */
+        .hero {
+            min-height: 94vh;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            background: var(--brown);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-visual {
+            position: relative;
+            background: linear-gradient(145deg, #5C2D3A 0%, #3A1820 60%, #2E1C1F 100%);
+            order: 1;
+        }
+
+        .hero-visual::before {
+            content: '';
+            position: absolute; inset: 0;
+            background:
+                radial-gradient(circle at 35% 30%, rgba(196, 116, 138, 0.25) 0%, transparent 50%),
+                radial-gradient(circle at 70% 75%, rgba(196, 116, 138, 0.15) 0%, transparent 40%);
+        }
+
+        .hero-visual .petal-frame {
+            position: absolute;
+            top: 15%; left: 15%; right: 15%; bottom: 15%;
+            border: 1px solid rgba(232, 180, 192, 0.3);
+        }
+
+        .hero-visual .petal-frame::before {
+            content: '';
+            position: absolute;
+            top: 10px; left: 10px; right: 10px; bottom: 10px;
+            border: 1px solid rgba(232, 180, 192, 0.12);
+        }
+
+        .hero-visual .brand-mono {
+            position: absolute; top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: 'Amiri', serif;
+            font-size: clamp(5rem, 12vw, 9rem);
+            color: rgba(232, 180, 192, 0.13);
+            font-weight: 700;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        .hero-visual .city-tag {
+            position: absolute; bottom: 9%; right: 15%;
+            color: var(--rose-light);
+            font-size: 0.72rem; letter-spacing: 3px;
+            text-transform: uppercase; opacity: 0.75;
+            font-family: 'Tajawal', sans-serif;
+        }
+
+        .hero-text {
+            display: flex; flex-direction: column; justify-content: center;
+            padding: 6rem 5vw 6rem 4vw;
+            position: relative; z-index: 2; order: 2;
+        }
+
+        .hero-eyebrow {
+            font-size: 0.75rem; font-weight: 700;
+            letter-spacing: 3px; text-transform: uppercase;
+            color: var(--rose-light);
+            opacity: 0;
+            animation: fadeUp 0.9s ease 0.1s forwards;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.8rem, 5.5vw, 5rem);
+            font-weight: 700; line-height: 1.1;
+            color: var(--ivory);
+            margin: 1rem 0 1.4rem;
+            opacity: 0;
+            animation: fadeUp 0.9s ease 0.25s forwards;
+        }
+
+        .hero h1 em {
+            font-style: italic;
+            color: var(--rose-light);
+        }
+
+        .hero-sub {
+            color: #C9B0B5;
+            font-size: 1.1rem; line-height: 1.8;
+            max-width: 420px;
+            margin-bottom: 2.5rem;
+            opacity: 0;
+            animation: fadeUp 0.9s ease 0.4s forwards;
+        }
+
+        .cta-row {
+            display: flex; gap: 1rem; flex-wrap: wrap;
+            opacity: 0;
+            animation: fadeUp 0.9s ease 0.55s forwards;
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .btn-rose {
+            display: inline-flex; align-items: center; gap: 0.6rem;
+            background: var(--rose); color: var(--ivory);
+            padding: 1rem 2.2rem; border: none; border-radius: 2px;
+            font-family: 'Tajawal', sans-serif;
+            font-size: 0.88rem; font-weight: 600;
+            letter-spacing: 1px; cursor: pointer;
+            text-decoration: none; transition: all 0.3s ease;
+        }
+        .btn-rose:hover { background: var(--rose-deep); transform: translateY(-2px); }
+
+        .btn-outline {
+            display: inline-flex; align-items: center; gap: 0.6rem;
+            background: transparent; color: var(--ivory);
+            padding: 1rem 2.2rem; border: 1px solid rgba(245, 230, 234, 0.35);
+            border-radius: 2px; font-family: 'Tajawal', sans-serif;
+            font-size: 0.88rem; font-weight: 500; cursor: pointer;
+            text-decoration: none; transition: all 0.3s ease;
+        }
+        .btn-outline:hover { border-color: var(--rose-light); color: var(--rose-light); }
+
+        @media (max-width: 860px) {
+            .hero { grid-template-columns: 1fr; min-height: auto; }
+            .hero-visual { height: 260px; order: 1; }
+            .hero-text { order: 2; padding: 3.5rem 6vw; }
+        }
+
+        /* ── Sections ── */
+        section { padding: 6.5rem 2rem; }
+        .wrapper { max-width: 1300px; margin: 0 auto; }
+
+        .sec-head {
+            text-align: center; max-width: 600px;
+            margin: 0 auto 4rem;
+        }
+        .sec-eyebrow {
+            display: block; margin-bottom: 0.8rem;
+            font-size: 0.72rem; font-weight: 700;
+            letter-spacing: 3px; text-transform: uppercase;
+            color: var(--rose);
+        }
+        .sec-head h2 {
+            font-size: clamp(2.2rem, 4vw, 3rem);
+            font-weight: 700; color: var(--brown);
+        }
+        .sec-head p {
+            color: var(--brown-warm); margin-top: 1rem;
+            font-size: 1.05rem; line-height: 1.8;
+        }
+
+        /* ── Stats strip ── */
+        .stats-strip {
+            background: var(--blush);
+            padding: 3rem 2rem;
+            border-top: 1px solid var(--hairline);
+            border-bottom: 1px solid var(--hairline);
+        }
+        .stats-inner {
+            max-width: 1300px; margin: 0 auto;
+            display: grid; grid-template-columns: repeat(4, 1fr);
+            gap: 1px; background: var(--hairline);
+            border: 1px solid var(--hairline);
+        }
+        .stat-item {
+            background: var(--blush); padding: 2rem;
+            text-align: center;
+        }
+        .stat-num {
+            font-family: 'Amiri', serif;
+            font-size: 2.8rem; font-weight: 700;
+            color: var(--rose-deep); display: block;
+        }
+        .stat-label {
+            font-size: 0.8rem; font-weight: 500;
+            color: var(--brown-mid); letter-spacing: 0.5px;
+            margin-top: 0.3rem;
+        }
+        @media (max-width: 640px) {
+            .stats-inner { grid-template-columns: 1fr 1fr; }
+        }
+
+        /* ── About ── */
+        #about { background: var(--ivory); }
+
+        .about-grid {
+            display: grid; grid-template-columns: 1fr 1.1fr;
+            gap: 5rem; align-items: center;
+        }
+
+        .about-visual-box {
+            position: relative;
+            height: 500px;
+            background: linear-gradient(155deg, var(--rose) 0%, var(--rose-deep) 100%);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .about-visual-box::after {
+            content: '';
+            position: absolute;
+            top: -18px; right: -18px;
+            left: 18px; bottom: 18px;
+            border: 1px solid var(--rose-light);
+            z-index: -1;
+        }
+
+        .about-visual-inner {
+            position: absolute; inset: 0;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            text-align: center; padding: 2rem;
+            background: linear-gradient(180deg, rgba(46,28,31,0) 0%, rgba(46,28,31,0.35) 100%);
+        }
+
+        .about-mono {
+            font-family: 'Amiri', serif;
+            font-size: 4rem; color: rgba(253,240,243,0.9);
+            margin-bottom: 0.8rem;
+        }
+
+        .about-tag {
+            font-size: 0.72rem; font-weight: 600;
+            letter-spacing: 3px; text-transform: uppercase;
+            color: rgba(253,240,243,0.75);
+        }
+
+        .about-text .sec-eyebrow { text-align: right; }
+        .about-text h3 {
+            font-size: 2rem; color: var(--brown);
+            margin-bottom: 1.5rem; line-height: 1.3;
+        }
+        .about-text p {
+            color: var(--brown-warm); line-height: 1.9;
+            margin-bottom: 1.3rem; font-size: 1.05rem;
+        }
+
+        .about-pills {
+            display: flex; flex-wrap: wrap; gap: 0.7rem;
+            margin-top: 2rem; padding-top: 2rem;
+            border-top: 1px solid var(--hairline);
+        }
+        .pill {
+            background: var(--blush); color: var(--rose-deep);
+            padding: 0.45rem 1.1rem; border-radius: 50px;
+            font-size: 0.82rem; font-weight: 600;
+            border: 1px solid var(--rose-light);
+        }
+
+        @media (max-width: 860px) {
+            .about-grid { grid-template-columns: 1fr; }
+            .about-visual-box { height: 280px; }
+        }
+
+        /* ── Services ── */
+        #services { background: var(--brown); }
+        #services .sec-head h2 { color: var(--ivory); }
+        #services .sec-head p { color: #C9B0B5; }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1px;
+            background: rgba(245,230,234,0.08);
+            border: 1px solid rgba(245,230,234,0.08);
+            margin-top: 3rem;
+        }
+
+        .service-card {
+            background: var(--brown); padding: 2.8rem 2rem;
+            transition: background 0.4s ease;
+            opacity: 0; transform: translateY(18px);
+            border-right: 3px solid transparent;
+        }
+        .service-card.reveal { opacity: 1; transform: translateY(0); }
+        .service-card:hover {
+            background: #3D2228;
+            border-right-color: var(--rose);
+        }
+
+        .service-icon {
+            font-size: 1.6rem; margin-bottom: 1.2rem;
+            display: block;
+        }
+        .service-card h3 {
+            color: var(--ivory); font-size: 1.35rem;
+            margin-bottom: 0.7rem; font-weight: 700;
+        }
+        .service-card p { color: #C9B0B5; font-size: 0.95rem; line-height: 1.8; }
+
+        /* ── Why us ── */
+        #why-us { background: var(--petal); }
+
+        .why-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem; margin-top: 3rem;
+        }
+
+        .why-card {
+            background: var(--ivory); padding: 2.5rem 2rem;
+            border-top: 3px solid var(--rose);
+            opacity: 0; transform: translateY(18px);
+            transition: all 0.4s ease;
+        }
+        .why-card.reveal { opacity: 1; transform: translateY(0); }
+        .why-card:hover { box-shadow: 0 8px 32px rgba(196,116,138,0.15); }
+
+        .why-card .why-icon { font-size: 1.8rem; margin-bottom: 1rem; display: block; }
+        .why-card h3 { color: var(--rose-deep); font-size: 1.15rem; margin-bottom: 0.8rem; }
+        .why-card p { color: var(--brown-warm); line-height: 1.8; font-size: 0.95rem; }
+
+        /* ── Contact ── */
+        #contact { background: var(--brown); }
+        #contact .sec-head h2 { color: var(--ivory); }
+        #contact .sec-head p { color: #C9B0B5; }
+
+        .contact-grid {
+            display: grid; grid-template-columns: 1fr 1fr;
+            gap: 4rem; margin-top: 3rem;
+        }
+
+        .contact-info-panel {
+            border-right: 1px solid var(--rose);
+            padding-right: 2.5rem;
+        }
+
+        .contact-info-panel h3 {
+            color: var(--ivory); font-size: 1.4rem;
+            margin-bottom: 2rem;
+        }
+
+        .c-item {
+            margin-bottom: 1.6rem; padding-bottom: 1.6rem;
+            border-bottom: 1px solid rgba(245,230,234,0.1);
+        }
+        .c-item:last-of-type { border-bottom: none; margin-bottom: 1.5rem; }
+
+        .c-item strong {
+            display: block; color: var(--rose-light);
+            font-size: 0.72rem; font-weight: 700;
+            letter-spacing: 2px; text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+        .c-item a {
+            color: var(--ivory); text-decoration: none;
+            font-size: 1.05rem; transition: color 0.3s ease;
+        }
+        .c-item a:hover { color: var(--rose-light); }
+        .c-item p { color: var(--ivory); font-size: 1.05rem; }
+
+        .wa-btn {
+            display: inline-flex; align-items: center; gap: 0.7rem;
+            background: var(--rose); color: var(--ivory);
+            padding: 1rem 2rem; border-radius: 2px;
+            font-family: 'Tajawal', sans-serif;
+            font-size: 0.9rem; font-weight: 600;
+            text-decoration: none; transition: all 0.3s ease;
+            margin-top: 0.5rem;
+        }
+        .wa-btn:hover { background: var(--rose-deep); transform: translateY(-2px); }
+
+        .contact-form {
+            background: rgba(245,230,234,0.04);
+            border: 1px solid rgba(245,230,234,0.12);
+            padding: 2.5rem;
+            display: flex; flex-direction: column; gap: 1.4rem;
+        }
+
+        .form-group { display: flex; flex-direction: column; gap: 0.5rem; }
+        .form-group label {
+            color: #C9B0B5; font-size: 0.75rem;
+            font-weight: 600; letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+        .form-group input, .form-group textarea, .form-group select {
+            background: transparent;
+            border: 1px solid rgba(245,230,234,0.2);
+            color: var(--ivory); padding: 0.85rem;
+            font-family: 'Tajawal', sans-serif;
+            font-size: 1rem; transition: border-color 0.3s ease;
+            direction: rtl;
+        }
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+            outline: none; border-color: var(--rose);
+        }
+        .form-group input::placeholder, .form-group textarea::placeholder { color: #6B4A52; }
+        .form-group textarea { resize: vertical; min-height: 110px; }
+        .form-group select option { background: var(--brown); }
+
+        .form-submit {
+            background: var(--rose); color: var(--ivory);
+            border: none; padding: 1rem;
+            font-family: 'Tajawal', sans-serif;
+            font-size: 0.9rem; font-weight: 700;
+            letter-spacing: 1px; cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .form-submit:hover { background: var(--rose-deep); }
+
+        @media (max-width: 860px) {
+            .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
+            .contact-info-panel { border-right: none; border-bottom: 1px solid var(--rose); padding-right: 0; padding-bottom: 2.5rem; }
+        }
+
+        /* ── Footer ── */
+        footer {
+            background: #1C1012; color: #9A7A80;
+            text-align: center; padding: 3rem 2rem;
+            border-top: 1px solid rgba(245,230,234,0.06);
+        }
+        footer .foot-brand {
+            font-family: 'Amiri', serif; font-size: 1.4rem;
+            color: var(--ivory); margin-bottom: 0.5rem;
+        }
+        footer p { margin-top: 0.5rem; font-size: 0.9rem; line-height: 1.6; }
+        footer a { color: var(--rose-light); text-decoration: none; }
+        footer a:hover { color: var(--rose); }
+
+        /* ── WhatsApp float ── */
+        .wa-float {
+            position: fixed; bottom: 24px; left: 24px;
+            background: #25D366; color: #fff;
+            width: 58px; height: 58px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 4px 20px rgba(37,211,102,0.4);
+            z-index: 999; text-decoration: none;
+            transition: transform 0.3s ease;
+        }
+        .wa-float:hover { transform: scale(1.1); }
+        .wa-float svg { width: 28px; height: 28px; fill: #fff; }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav id="site-nav">
+    <div class="nav-bar">
+        <a href="#" class="nav-brand">أوما بيوتي & سبا</a>
+        <button class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-label="القائمة">
+            <svg fill="none" viewBox="0 0 24 24" stroke-width="1.8">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
+            </svg>
+        </button>
+    </div>
+    <div class="nav-links-panel" id="nav-links-panel">
+        <ul>
+            <li><a href="#about">من نحن</a></li>
+            <li><a href="#services">خدماتنا</a></li>
+            <li><a href="#why-us">لماذا أوما</a></li>
+            <li><a href="#contact">تواصلي معنا</a></li>
+        </ul>
+    </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+    <div class="hero-visual">
+        <div class="petal-frame"></div>
+        <div class="brand-mono">أوما</div>
+        <span class="city-tag">صحار · سلطنة عُمان</span>
+    </div>
+    <div class="hero-text">
+        <span class="hero-eyebrow">بيوتي & سبا</span>
+        <h1>حيث تبدأ<br><em>العناية الحقيقية</em></h1>
+        <p class="hero-sub">مركزك المتخصص للجمال والاسترخاء في صحار — خدمات احترافية تجمع بين الأناقة والرقي، لتخرجي بأفضل نسخة منكِ.</p>
+        <div class="cta-row">
+            <a href="https://wa.me/96895554464?text=مرحباً%20أوما%20بيوتي%20%26%20سبا!%20أود%20حجز%20موعد." class="btn-rose" target="_blank">احجزي موعدك</a>
+            <a href="#services" class="btn-outline">اكتشفي خدماتنا</a>
+        </div>
+    </div>
+</section>
+
+<!-- Stats Strip -->
+<div class="stats-strip">
+    <div class="stats-inner">
+        <div class="stat-item">
+            <span class="stat-num">+20</span>
+            <span class="stat-label">خدمة متخصصة</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-num">٧/٧</span>
+            <span class="stat-label">أيام في الأسبوع</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-num">٢٤</span>
+            <span class="stat-label">ساعة خدمة</span>
+        </div>
+        <div class="stat-item">
+            <span class="stat-num">100%</span>
+            <span class="stat-label">رضا العميلات</span>
+        </div>
+    </div>
+</div>
+
+<!-- About -->
+<section id="about">
+    <div class="wrapper">
+        <div class="about-grid">
+            <div class="about-visual-box">
+                <div class="about-visual-inner">
+                    <div class="about-mono">✦</div>
+                    <div class="about-tag">جمال · أناقة · راحة</div>
+                </div>
+            </div>
+            <div class="about-text">
+                <span class="sec-eyebrow">من نحن</span>
+                <h3>مركز أوما بيوتي & سبا<br>في قلب صحار</h3>
+                <p>نحن مركز متخصص في تقديم خدمات الجمال والعناية الفاخرة لسيدات صحار وما حولها. بيئتنا هادئة ومريحة، فريقنا محترف، ومنتجاتنا مختارة بعناية لتناسب بشرتك وتحقق لك أفضل النتائج.</p>
+                <p>من التدليك الاسترخائي إلى الخدمات التجميلية المتقدمة كالميكروبليدينج والرموش — نقدم لكِ تجربة كاملة في مكان واحد، بأيدٍ أمينة.</p>
+                <div class="about-pills">
+                    <span class="pill">ميكروبليدينج</span>
+                    <span class="pill">رموش طبيعية</span>
+                    <span class="pill">مساج احترافي</span>
+                    <span class="pill">مكياج عرائس</span>
+                    <span class="pill">عناية بالبشرة</span>
+                    <span class="pill">تشكيل الحواجب</span>
+                    <span class="pill">أكريليك نيلز</span>
+                    <span class="pill">إزالة الشعر بالليزر</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Services -->
+<section id="services">
+    <div class="wrapper">
+        <div class="sec-head">
+            <span class="sec-eyebrow">خدماتنا</span>
+            <h2>كل ما تحتاجينه في مكان واحد</h2>
+            <p>من الشعر إلى الأظافر، من البشرة إلى الاسترخاء — نغطي جميع احتياجاتك التجميلية باحترافية عالية</p>
+        </div>
+        <div class="services-grid">
+            <div class="service-card">
+                <span class="service-icon">💆‍♀️</span>
+                <h3>المساج والاسترخاء</h3>
+                <p>جلسات مساج احترافية لتخفيف التوتر وإعادة نشاط الجسم — من المساج السويدي إلى مساج الأحجار الساخنة.</p>
+            </div>
+            <div class="service-card">
+                <span class="service-icon">✨</span>
+                <h3>الميكروبليدينج والحواجب</h3>
+                <p>ميكروبليدينج، ميكروشيدينج، وتشكيل الحواجب لمنح وجهك مظهراً مثالياً يدوم.</p>
+            </div>
+            <div class="service-card">
+                <span class="service-icon">👁️</span>
+                <h3>الرموش والتجميل</h3>
+                <p>وصلات رموش، رفع الرموش، وتثبيت الرموش — لعيون ساحرة تدوم.</p>
+            </div>
+            <div class="service-card">
+                <span class="service-icon">💅</span>
+                <h3>الأظافر</h3>
+                <p>مانيكير، باديكير، أكريليك نيلز — تشكيلة كاملة للعناية بأظافرك بأرقى المواد.</p>
+            </div>
+            <div class="service-card">
+                <span class="service-icon">💄</span>
+                <h3>المكياج والعرائس</h3>
+                <p>مكياج يومي، سهرات، وخدمات عرائس متكاملة — لتتألقي في أهم لحظاتك.</p>
+            </div>
+            <div class="service-card">
+                <span class="service-icon">🌿</span>
+                <h3>إزالة الشعر</h3>
+                <p>شمع، شمع برازيلي، ليزر، وخيوط — جميع طرق إزالة الشعر بخبرة وأمان.</p>
+            </div>
+            <div class="service-card">
+                <span class="service-icon">💇‍♀️</span>
+                <h3>الشعر وتصفيفه</h3>
+                <p>قص، بلايج، شعر مستعار، ضفائر، كيراتين — رعاية متكاملة لشعرك على يد متخصصات.</p>
+            </div>
+            <div class="service-card">
+                <span class="service-icon">🫧</span>
+                <h3>العناية بالبشرة</h3>
+                <p>علاج حب الشباب، تنظيف البشرة، جلسات التبييض والترطيب — بشرة نضرة طوال اليوم.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Why Us -->
+<section id="why-us">
+    <div class="wrapper">
+        <div class="sec-head">
+            <span class="sec-eyebrow">لماذا أوما</span>
+            <h2>ما يميّزنا عن غيرنا</h2>
+            <p>نؤمن أن كل عميلة تستحق تجربة فريدة — وهذا ما نقدمه في كل زيارة</p>
+        </div>
+        <div class="why-grid">
+            <div class="why-card">
+                <span class="why-icon">🕐</span>
+                <h3>مفتوحون ٧ أيام · ٢٤ ساعة</h3>
+                <p>نعمل على مدار الساعة طوال أيام الأسبوع — لأن وقتك ثمين ونحن هنا متى احتجتينا.</p>
+            </div>
+            <div class="why-card">
+                <span class="why-icon">🌸</span>
+                <h3>أجواء راقية ومريحة</h3>
+                <p>بيئة هادئة ومصممة لراحتك الكاملة — لتتركي ضغوط الحياة عند الباب وتدخلي عالم الاسترخاء.</p>
+            </div>
+            <div class="why-card">
+                <span class="why-icon">👩‍⚕️</span>
+                <h3>فريق متخصص ومحترف</h3>
+                <p>خبيرات مدربات بأعلى المستويات على أحدث التقنيات التجميلية المحلية والعالمية.</p>
+            </div>
+            <div class="why-card">
+                <span class="why-icon">💎</span>
+                <h3>منتجات عالية الجودة</h3>
+                <p>نستخدم فقط منتجات مختارة بعناية لضمان نتائج ممتازة وآمنة على بشرتك.</p>
+            </div>
+            <div class="why-card">
+                <span class="why-icon">🏠</span>
+                <h3>خدمة منزلية متاحة</h3>
+                <p>نصل إليكِ أينما كنتِ في صحار — تمتعي بخدماتنا من راحة منزلك.</p>
+            </div>
+            <div class="why-card">
+                <span class="why-icon">❤️</span>
+                <h3>عناية شخصية لكل عميلة</h3>
+                <p>نتعامل مع كل عميلة باهتمام فردي لأن جمالك فريد ويستحق اهتماماً خاصاً.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Contact -->
+<section id="contact">
+    <div class="wrapper">
+        <div class="sec-head">
+            <span class="sec-eyebrow">تواصلي معنا</span>
+            <h2>احجزي موعدك الآن</h2>
+            <p>معظم عميلاتنا يتواصلن عبر واتساب — أسرع طريقة للوصول إلينا</p>
+        </div>
+        <div class="contact-grid">
+            <div class="contact-info-panel">
+                <h3>معلومات التواصل</h3>
+                <div class="c-item">
+                    <strong>الهاتف</strong>
+                    <a href="tel:+96895554464">+968 9555 4464</a>
+                </div>
+                <div class="c-item">
+                    <strong>واتساب</strong>
+                    <a href="https://wa.me/96895554464?text=مرحباً%20أوما%20بيوتي%20%26%20سبا!%20أود%20حجز%20موعد." target="_blank">راسلينا على واتساب</a>
+                </div>
+                <div class="c-item">
+                    <strong>إنستغرام</strong>
+                    <a href="https://www.instagram.com/_oma_spa/" target="_blank">@_oma_spa</a>
+                </div>
+                <div class="c-item">
+                    <strong>الموقع</strong>
+                    <p>صحار، الملتقى · سلطنة عُمان</p>
+                </div>
+                <div class="c-item">
+                    <strong>أوقات العمل</strong>
+                    <p>٧ أيام في الأسبوع · ٢٤ ساعة</p>
+                </div>
+                <a href="https://wa.me/96895554464?text=مرحباً%20أوما%20بيوتي%20%26%20سبا!%20أود%20حجز%20موعد." target="_blank" class="wa-btn">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.122 1.532 5.853L.057 23.737a.5.5 0 0 0 .613.612l5.938-1.498A11.944 11.944 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 0 1-5.012-1.373l-.36-.214-3.724.94.978-3.635-.234-.374A9.818 9.818 0 0 1 2.182 12C2.182 6.58 6.58 2.182 12 2.182c5.42 0 9.818 4.398 9.818 9.818 0 5.42-4.398 9.818-9.818 9.818z"/></svg>
+                    تواصلي عبر واتساب
+                </a>
+            </div>
+            <form class="contact-form" onsubmit="handleSubmit(event)">
+                <div class="form-group">
+                    <label>الاسم الكريم</label>
+                    <input type="text" placeholder="اسمك" required>
+                </div>
+                <div class="form-group">
+                    <label>رقم الهاتف</label>
+                    <input type="tel" placeholder="+968 XXXX XXXX">
+                </div>
+                <div class="form-group">
+                    <label>الخدمة المطلوبة</label>
+                    <select>
+                        <option value="">اختاري الخدمة</option>
+                        <option>مساج واسترخاء</option>
+                        <option>ميكروبليدينج وحواجب</option>
+                        <option>رموش ووصلات</option>
+                        <option>أظافر (مانيكير / باديكير)</option>
+                        <option>مكياج وعرائس</option>
+                        <option>إزالة الشعر</option>
+                        <option>شعر وتصفيف</option>
+                        <option>عناية بالبشرة</option>
+                        <option>خدمة منزلية</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>ملاحظات إضافية</label>
+                    <textarea placeholder="أي تفاصيل تودين إضافتها..."></textarea>
+                </div>
+                <button type="submit" class="form-submit">إرسال الطلب</button>
+            </form>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer>
+    <p class="foot-brand">أوما بيوتي & سبا</p>
+    <div class="ornament"><span>◈</span></div>
+    <p style="margin-top:1.2rem;">مساج · عناية بالبشرة · رموش · أظافر · مكياج عرائس</p>
+    <p style="margin-top:1rem;">
+        <a href="tel:+96895554464">+968 9555 4464</a> &nbsp;·&nbsp;
+        <a href="https://wa.me/96895554464" target="_blank">واتساب</a> &nbsp;·&nbsp;
+        <a href="https://www.instagram.com/_oma_spa/" target="_blank">إنستغرام</a>
+    </p>
+    <p style="margin-top:1.5rem; font-size:0.8rem; opacity:0.6;">صحار، الملتقى · سلطنة عُمان · © 2026 Oma Beauty & Spa</p>
+</footer>
+
+<!-- WhatsApp Float -->
+<a href="https://wa.me/96895554464?text=مرحباً%20أوما%20بيوتي%20%26%20سبا!%20أود%20حجز%20موعد." class="wa-float" target="_blank" aria-label="واتساب">
+    <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.122 1.532 5.853L.057 23.737a.5.5 0 0 0 .613.612l5.938-1.498A11.944 11.944 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.818a9.818 9.818 0 0 1-5.012-1.373l-.36-.214-3.724.94.978-3.635-.234-.374A9.818 9.818 0 0 1 2.182 12C2.182 6.58 6.58 2.182 12 2.182c5.42 0 9.818 4.398 9.818 9.818 0 5.42-4.398 9.818-9.818 9.818z"/></svg>
+</a>
+
+<script>
+    // Nav toggle
+    const nav = document.getElementById('site-nav');
+    const toggle = document.getElementById('nav-toggle');
+    const panel = document.getElementById('nav-links-panel');
+
+    toggle.addEventListener('click', () => {
+        const open = panel.classList.toggle('open');
+        toggle.setAttribute('aria-expanded', open);
+    });
+
+    // Hide nav on scroll down
+    let lastY = window.scrollY, ticking = false;
+    window.addEventListener('scroll', () => {
+        if (!ticking) {
+            requestAnimationFrame(() => {
+                const y = window.scrollY;
+                if (y > lastY && y > 100) { nav.classList.add('nav-hidden'); panel.classList.remove('open'); }
+                else { nav.classList.remove('nav-hidden'); }
+                lastY = y; ticking = false;
+            });
+            ticking = true;
+        }
+    });
+
+    // Scroll reveal
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('reveal'); observer.unobserve(e.target); } });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+    document.querySelectorAll('.service-card, .why-card').forEach(el => observer.observe(el));
+
+    // Smooth scroll
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+        a.addEventListener('click', e => {
+            const target = document.querySelector(a.getAttribute('href'));
+            if (target) { e.preventDefault(); panel.classList.remove('open'); target.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+        });
+    });
+
+    // Form
+    function handleSubmit(e) {
+        e.preventDefault();
+        alert('شكراً لك! سنتواصل معكِ قريباً. للحجز السريع، راسلينا على واتساب مباشرة 😊');
+        e.target.reset();
+    }
+</script>
+</body>
+</html>
